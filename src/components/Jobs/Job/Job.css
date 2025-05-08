@@ -1,0 +1,192 @@
+.job-timer {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #f9f9f9;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-family: "Raleway", sans-serif;
+}
+
+.job-timer h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.job-timer__clock {
+  font-size: 48px;
+  font-weight: 600;
+  color: #1976d2;
+  margin: 16px 0;
+}
+
+.job-timer__earnings {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.job-timer__btn {
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+}
+
+.job-timer__btn.start {
+  background-color: #2e7d32;
+}
+
+.job-timer__btn.stop {
+  background-color: #d32f2f;
+}
+
+.job-info__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0;
+  gap: 10px;
+}
+
+.job-info__card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(60, 60, 120, 0.04);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.job-info__card h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.job-info__card h3 p {
+  font-size: 16px;
+  font-weight: 700;
+  color: #555;
+  padding-top: 0px;
+}
+
+.job-info__card p {
+  padding-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.sessions-history {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(60, 60, 120, 0.06);
+  padding: 32px 16px 16px 16px;
+  margin-top: 32px;
+  font-family: "Raleway", sans-serif;
+}
+
+.sessions-history h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.sessions-table {
+  min-width: 680px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(60, 60, 120, 0.04);
+}
+
+.MuiTable-root {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  background: #f1f5f9;
+  color: #222b45;
+  font-weight: 700;
+  font-size: 1.05rem;
+  border-bottom: 2px solid #e0e7ef;
+  letter-spacing: 0.5px;
+  /* text-align: center; */
+  text-transform: none;
+}
+
+.MuiTableRow-root {
+  transition: background 0.18s;
+}
+
+.MuiTableRow-root:nth-of-type(even) {
+  background: #f6fafd;
+}
+
+.MuiTableRow-root:hover {
+  background: #e0e7ef !important;
+}
+
+.MuiTableCell-root {
+  font-size: 1.02rem;
+  padding: 12px 10px;
+  border-bottom: 1px solid #e0e7ef;
+  text-align: center;
+}
+
+.bonus-input {
+  width: 70px;
+  padding: 4px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.bonus-input .MuiInputBase-input {
+  text-align: center;
+  font-weight: 600;
+  color: #1976d2;
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 4px 0;
+  border: none;
+  outline: none;
+  transition:
+    box-shadow 0.2s,
+    background 0.2s;
+}
+
+.bonus-input .MuiInputBase-input:focus {
+  background: #fff;
+  box-shadow: 0 0 0 2px #90caf9;
+}
+
+.summary {
+  margin-top: 24px;
+  background: #f6fafd;
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 4px rgba(60, 60, 120, 0.04);
+}
+
+.summary table {
+  width: 100%;
+}
+
+.summary td {
+  padding: 6px 10px;
+  font-size: 1.03rem;
+}
+
+.summary tr td:first-child {
+  color: #1976d2;
+  font-weight: 500;
+}
