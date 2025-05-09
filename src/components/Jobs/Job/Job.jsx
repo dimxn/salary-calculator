@@ -34,6 +34,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import { motion } from "framer-motion";
 
 export const Job = ({ db, user, setUser, auth }) => {
   const { jobId } = useParams();
@@ -187,6 +188,11 @@ export const Job = ({ db, user, setUser, auth }) => {
     });
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   if (loading) {
     return <Loader loaderText="Завантаження робочого місця..." />;
   }
@@ -200,8 +206,20 @@ export const Job = ({ db, user, setUser, auth }) => {
         auth={auth}
         isBack={true}
       >
-        <h1>Робоче місце не знайдено!</h1>
-        <h2>Перейдіть на головну сторінку :)</h2>
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Робоче місце не знайдено!
+        </motion.h1>
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          Перейдіть на головну сторінку :)
+        </motion.h2>
       </MainPage>
     );
   }
@@ -214,10 +232,26 @@ export const Job = ({ db, user, setUser, auth }) => {
       auth={auth}
       isBack={true}
     >
-      <section className="job-timer">
-        <h2>Робочий таймер</h2>
+      <motion.section
+        className="job-timer"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.h2
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+        >
+          Робочий таймер
+        </motion.h2>
 
-        <div className="job-timer__clock">
+        <motion.div
+          className="job-timer__clock"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+        >
           {Math.floor(elapsedSeconds / 3600)
             .toString()
             .padStart(2, "0")}
@@ -226,28 +260,60 @@ export const Job = ({ db, user, setUser, auth }) => {
             .toString()
             .padStart(2, "0")}
           :{(elapsedSeconds % 60).toString().padStart(2, "0")}
-        </div>
+        </motion.div>
 
-        <p className="job-timer__earnings">
+        <motion.p
+          className="job-timer__earnings"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.3 }}
+        >
           Зароблено:{" "}
           <strong>
             {((elapsedSeconds / 3600) * job.hourlyRate).toFixed(2)} грн
           </strong>
-        </p>
+        </motion.p>
 
         {!isRunning ? (
-          <button className="job-timer__btn start" onClick={startWork}>
+          <motion.button
+            className="job-timer__btn start"
+            onClick={startWork}
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             Почати роботу
-          </button>
+          </motion.button>
         ) : (
-          <button className="job-timer__btn stop" onClick={stopWork}>
+          <motion.button
+            className="job-timer__btn stop"
+            onClick={stopWork}
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             Завершити роботу
-          </button>
+          </motion.button>
         )}
-      </section>
-      <section className="job-info">
-        <div className="job-info__wrapper">
-          <div className="job-info__card">
+      </motion.section>
+      <motion.section
+        className="job-info"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+      >
+        <motion.div
+          className="job-info__wrapper"
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
+        >
+          <motion.div
+            className="job-info__card"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.4 }}
+          >
             <div className="icon">
               <BiCalendar size={24} />
             </div>
@@ -255,8 +321,13 @@ export const Job = ({ db, user, setUser, auth }) => {
               <h3>{job.workDays}</h3>
               <p>Робочих днів</p>
             </div>
-          </div>
-          <div className="job-info__card">
+          </motion.div>
+          <motion.div
+            className="job-info__card"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 0.4 }}
+          >
             <div className="icon">
               <AiOutlineDollar size={24} />
             </div>
@@ -266,10 +337,16 @@ export const Job = ({ db, user, setUser, auth }) => {
               </h3>
               <p>Погодинна ставка</p>
             </div>
-          </div>
+          </motion.div>
           {job.bonuses &&
-            job.bonuses.map((bonus) => (
-              <div className="job-info__card">
+            job.bonuses.map((bonus, idx) => (
+              <motion.div
+                className="job-info__card"
+                key={bonus.title + idx}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 + idx * 0.1, duration: 0.4 }}
+              >
                 <div className="icon">
                   <FaHandHoldingUsd size={24} />
                 </div>
@@ -277,20 +354,37 @@ export const Job = ({ db, user, setUser, auth }) => {
                   <h3>{bonus.amount} грн</h3>
                   <p>{bonus.title}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-        </div>
-      </section>
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ marginBottom: 24 }}
-        onClick={() => setOpenSummary(true)}
+        </motion.div>
+      </motion.section>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7, duration: 0.4 }}
       >
-        Показати підсумки
-      </Button>
-      <section className="sessions-history">
-        <h3>Історія сесій</h3>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ marginBottom: 24 }}
+          onClick={() => setOpenSummary(true)}
+        >
+          Показати підсумки
+        </Button>
+      </motion.div>
+      <motion.section
+        className="sessions-history"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.5 }}
+      >
+        <motion.h3
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.9, duration: 0.4 }}
+        >
+          Історія сесій
+        </motion.h3>
         <TableContainer className="sessions-container" component={Paper}>
           <Table className="sessions-table" size="medium">
             <TableHead>
@@ -379,7 +473,7 @@ export const Job = ({ db, user, setUser, auth }) => {
             </Button>
           </DialogActions>
         </Dialog>
-      </section>
+      </motion.section>
     </MainPage>
   );
 };

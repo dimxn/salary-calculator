@@ -7,6 +7,7 @@ import { app, db } from "../firebaseConfig";
 import "./LoginPage.css";
 import LOGO from "../assets/logo.png";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 const auth = getAuth(app);
 
@@ -34,25 +35,51 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="login-page">
+    <motion.div
+      className="login-page"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -40 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="container">
-        <div className="logo">
+        <motion.div
+          className="logo"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
           <img src={LOGO} alt="logo" />
-        </div>
-        <h1 className="title">Salary Calculator</h1>
-        <div className="login-wrapper">
+        </motion.div>
+        <motion.h1
+          className="title"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          Salary Calculator
+        </motion.h1>
+        <motion.div
+          className="login-wrapper"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+        >
           <p className="description">
             Для початку роботи увійдіть за допомогою облікового запису Google
           </p>
-          <button
+          <motion.button
             className="login-with-google-button"
             onClick={handleGoogleLogin}
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
             Увійти з Google
             <BsGoogle style={{ marginLeft: 10 }} />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };

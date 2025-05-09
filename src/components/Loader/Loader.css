@@ -71,8 +71,9 @@
 
 .loading-text {
   font-size: 18px;
-  font-family: sans-serif;
-  color: #333;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  color: #000000;
   margin-top: 10px;
 }
 
