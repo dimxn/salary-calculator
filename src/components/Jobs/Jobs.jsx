@@ -4,6 +4,7 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./Jobs.css";
 import { toast } from "react-toastify";
+import { Loader } from "../Loader/Loader";
 
 export const Jobs = ({
   user,
@@ -45,7 +46,7 @@ export const Jobs = ({
   };
 
   if (loading) {
-    return <p>Завантаження...</p>;
+    return <Loader loaderText="Завантаження робочого місця..." />;
   }
 
   if (jobs.length === 0) {

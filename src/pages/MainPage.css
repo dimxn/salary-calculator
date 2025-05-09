@@ -62,3 +62,23 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
+.main-page__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.main-page__back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  margin-right: 8px;
+  color: #fff;
+  transition: color 0.2s;
+}
+
+.main-page__back-button:hover {
+  color: #1976d2;
+}

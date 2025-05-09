@@ -193,7 +193,13 @@ export const Job = ({ db, user, setUser, auth }) => {
 
   if (!job) {
     return (
-      <MainPage title="Упс! :(" user={user} setUser={setUser} auth={auth}>
+      <MainPage
+        title="Упс! :("
+        user={user}
+        setUser={setUser}
+        auth={auth}
+        isBack={true}
+      >
         <h1>Робоче місце не знайдено!</h1>
         <h2>Перейдіть на головну сторінку :)</h2>
       </MainPage>
@@ -201,7 +207,13 @@ export const Job = ({ db, user, setUser, auth }) => {
   }
 
   return (
-    <MainPage title={job.jobTitle} user={user} setUser={setUser} auth={auth}>
+    <MainPage
+      title={job.jobTitle}
+      user={user}
+      setUser={setUser}
+      auth={auth}
+      isBack={true}
+    >
       <section className="job-timer">
         <h2>Робочий таймер</h2>
 
@@ -279,8 +291,8 @@ export const Job = ({ db, user, setUser, auth }) => {
       </Button>
       <section className="sessions-history">
         <h3>Історія сесій</h3>
-        <TableContainer component={Paper}>
-          <Table className="sessions-table" size="small">
+        <TableContainer className="sessions-container" component={Paper}>
+          <Table className="sessions-table" size="medium">
             <TableHead>
               <TableRow>
                 <TableCell>День</TableCell>

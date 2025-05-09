@@ -70,7 +70,7 @@ function App() {
   }, [user]);
 
   if (loading) {
-    return <Loader loaderText="Завантаження..." />;
+    return <Loader loaderText="Завантаження" />;
   }
 
   return (

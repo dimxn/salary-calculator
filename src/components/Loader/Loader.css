@@ -1,34 +1,120 @@
-@keyframes flip {
-  0% {
-    transform: rotateY(0);
-  }
-  100% {
-    transform: rotateY(-180deg);
-  }
-}
-.loader1 {
+.loader-wrapper {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 100vw;
+  justify-content: center;
   height: 100vh;
+  background: #fff;
 }
 
-.loader {
-  width: 65px;
-  margin: auto;
-}
-.loader__image {
+.loader-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.loader__coin {
-  animation: flip 0.5s ease-in-out infinite alternate-reverse both;
+  gap: 20px;
 }
 
-.loader__title {
-  color: #000000;
-  margin-top: 20px;
-  text-align: center;
+.calculator {
+  width: 60px;
+  height: 80px;
+  background: #3b3b3b;
+  border-radius: 10px;
+  position: relative;
+  animation: bounce 1.5s infinite;
+}
+
+.screen {
+  width: 80%;
+  height: 20%;
+  background: #6df1cc;
+  border-radius: 5px;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+}
+
+.buttons {
+  width: 80%;
+  height: 50%;
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.buttons::before {
+  content: "";
+  grid-column: span 3;
+  height: 10px;
+  background: #bbb;
+  border-radius: 2px;
+}
+
+.buttons::after {
+  content: "";
+  height: 10px;
+  background: #bbb;
+  border-radius: 2px;
+  grid-column: span 3;
+  margin-top: 4px;
+}
+
+.coin {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 30% 30%, #ffd700, #e5ac00);
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.loading-text {
+  font-size: 18px;
+  font-family: sans-serif;
+  color: #333;
+  margin-top: 10px;
+}
+
+.dots::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  animation: dots 1s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
 }
