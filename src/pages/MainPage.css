@@ -69,6 +69,10 @@
   gap: 10px;
 }
 
+.main-page__wrapper .main-page__title {
+  text-wrap: wrap;
+}
+
 .main-page__back-button {
   background: none;
   border: none;

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Jobs.css";
 import { toast } from "react-toastify";
 import { Loader } from "../Loader/Loader";
-import { motion, AnimatePresence } from "framer-motion"; // Додаємо імпорт
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Jobs = ({
   user,
@@ -90,24 +90,57 @@ export const Jobs = ({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
+                style={{ display: "flex", alignItems: "center", width: "100%" }}
               >
-                <button
-                  className="main-page__content-button"
-                  onClick={() => handleJobClick(job.id)}
+                <motion.div
+                  layout
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
                 >
-                  {job.jobTitle}
-                </button>
-                {isDeleteMode && (
                   <motion.button
-                    className="jobs__delete-button"
-                    onClick={() => handleDelete(job.id)}
-                    whileHover={{ scale: 1.15, color: "#d32f2f" }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 300 }}
+                    className="main-page__content-button"
+                    onClick={() => handleJobClick(job.id)}
+                    layout
+                    style={{
+                      width: isDeleteMode ? "calc(100% - 60px)" : "100%",
+                      marginRight: isDeleteMode ? 12 : 0,
+                      borderTopRightRadius: isDeleteMode ? 0 : "",
+                      borderBottomRightRadius: isDeleteMode ? 0 : "",
+                      transition:
+                        "width 0.4s cubic-bezier(0.4,0,0.2,1), margin-right 0.4s cubic-bezier(0.4,0,0.2,1), border-radius 0.4s cubic-bezier(0.4,0,0.2,1)",
+                    }}
                   >
-                    <AiOutlineDelete />
+                    {job.jobTitle}
                   </motion.button>
-                )}
+                  <AnimatePresence>
+                    {isDeleteMode && (
+                      <motion.button
+                        className="jobs__delete-button"
+                        onClick={() => handleDelete(job.id)}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        whileHover={{ scale: 1.15, color: "#d32f2f" }}
+                        whileTap={{ scale: 0.95 }}
+                        style={{
+                          marginLeft: 0,
+                          borderTopLeftRadius: 0,
+                          borderBottomLeftRadius: 0,
+                          width: 60,
+                          minWidth: 60,
+                          height: 48,
+                        }}
+                      >
+                        <AiOutlineDelete />
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               </motion.div>
             ))}
           </AnimatePresence>

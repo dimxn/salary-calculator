@@ -1,9 +1,9 @@
 import { FaHandHoldingUsd } from "react-icons/fa";
 import { BiCalendar } from "react-icons/bi";
 import { AiOutlineDollar } from "react-icons/ai";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MainPage } from "../../../pages/MainPage";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   doc,
   getDoc,
@@ -46,6 +46,8 @@ export const Job = ({ db, user, setUser, auth }) => {
   const [sessions, setSessions] = useState([]);
   const [editingBonuses, setEditingBonuses] = useState({});
   const [openSummary, setOpenSummary] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const navigate = useNavigate();
   const hasBonuses = job?.bonuses && job.bonuses.length > 0;
 
   const jobRef = user ? doc(db, "users", user.uid, "jobs", jobId) : null;
@@ -193,8 +195,16 @@ export const Job = ({ db, user, setUser, auth }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Функція для плавного виходу
+  const handleBack = () => {
+    setIsExiting(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 400);
+  };
+
   if (loading) {
-    return <Loader loaderText="Завантаження робочого місця..." />;
+    return <Loader loaderText="Завантаження робочого місця" />;
   }
 
   if (!job) {
@@ -205,21 +215,18 @@ export const Job = ({ db, user, setUser, auth }) => {
         setUser={setUser}
         auth={auth}
         isBack={true}
+        onBack={handleBack}
       >
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          exit={{ opacity: 0, y: 30 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          {...(isExiting && { animate: { opacity: 0, y: 30 } })}
         >
-          Робоче місце не знайдено!
-        </motion.h1>
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          Перейдіть на головну сторінку :)
-        </motion.h2>
+          <h1>Робоче місце не знайдено!</h1>
+          <h2>Перейдіть на головну сторінку :)</h2>
+        </motion.div>
       </MainPage>
     );
   }
@@ -231,27 +238,18 @@ export const Job = ({ db, user, setUser, auth }) => {
       setUser={setUser}
       auth={auth}
       isBack={true}
+      onBack={handleBack}
     >
       <motion.section
         className="job-timer"
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        exit={{ opacity: 0, y: 30 }}
+        transition={{ duration: 0.7, ease: "easeInOut" }}
+        {...(isExiting && { animate: { opacity: 0, y: 30 } })}
       >
-        <motion.h2
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-        >
-          Робочий таймер
-        </motion.h2>
-
-        <motion.div
-          className="job-timer__clock"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-        >
+        <h2>Робочий таймер</h2>
+        <div className="job-timer__clock">
           {Math.floor(elapsedSeconds / 3600)
             .toString()
             .padStart(2, "0")}
@@ -260,60 +258,33 @@ export const Job = ({ db, user, setUser, auth }) => {
             .toString()
             .padStart(2, "0")}
           :{(elapsedSeconds % 60).toString().padStart(2, "0")}
-        </motion.div>
-
-        <motion.p
-          className="job-timer__earnings"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.3 }}
-        >
+        </div>
+        <p className="job-timer__earnings">
           Зароблено:{" "}
           <strong>
             {((elapsedSeconds / 3600) * job.hourlyRate).toFixed(2)} грн
           </strong>
-        </motion.p>
-
+        </p>
         {!isRunning ? (
-          <motion.button
-            className="job-timer__btn start"
-            onClick={startWork}
-            whileHover={{ scale: 1.07 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
+          <button className="job-timer__btn start" onClick={startWork}>
             Почати роботу
-          </motion.button>
+          </button>
         ) : (
-          <motion.button
-            className="job-timer__btn stop"
-            onClick={stopWork}
-            whileHover={{ scale: 1.07 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
+          <button className="job-timer__btn stop" onClick={stopWork}>
             Завершити роботу
-          </motion.button>
+          </button>
         )}
       </motion.section>
       <motion.section
         className="job-info"
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
+        exit={{ opacity: 0, y: 30 }}
+        transition={{ duration: 0.7, ease: "easeInOut" }}
+        {...(isExiting && { animate: { opacity: 0, y: 30 } })}
       >
-        <motion.div
-          className="job-info__wrapper"
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-        >
-          <motion.div
-            className="job-info__card"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
-          >
+        <div className="job-info__wrapper">
+          <div className="job-info__card">
             <div className="icon">
               <BiCalendar size={24} />
             </div>
@@ -321,13 +292,8 @@ export const Job = ({ db, user, setUser, auth }) => {
               <h3>{job.workDays}</h3>
               <p>Робочих днів</p>
             </div>
-          </motion.div>
-          <motion.div
-            className="job-info__card"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.4 }}
-          >
+          </div>
+          <div className="job-info__card">
             <div className="icon">
               <AiOutlineDollar size={24} />
             </div>
@@ -337,16 +303,10 @@ export const Job = ({ db, user, setUser, auth }) => {
               </h3>
               <p>Погодинна ставка</p>
             </div>
-          </motion.div>
+          </div>
           {job.bonuses &&
             job.bonuses.map((bonus, idx) => (
-              <motion.div
-                className="job-info__card"
-                key={bonus.title + idx}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 + idx * 0.1, duration: 0.4 }}
-              >
+              <div className="job-info__card" key={bonus.title + idx}>
                 <div className="icon">
                   <FaHandHoldingUsd size={24} />
                 </div>
@@ -354,14 +314,16 @@ export const Job = ({ db, user, setUser, auth }) => {
                   <h3>{bonus.amount} грн</h3>
                   <p>{bonus.title}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-        </motion.div>
+        </div>
       </motion.section>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 0.4 }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.7, ease: "easeInOut" }}
+        {...(isExiting && { animate: { opacity: 0, y: 20 } })}
       >
         <Button
           variant="contained"
@@ -374,17 +336,13 @@ export const Job = ({ db, user, setUser, auth }) => {
       </motion.div>
       <motion.section
         className="sessions-history"
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
+        exit={{ opacity: 0, y: 30 }}
+        transition={{ duration: 0.7, ease: "easeInOut" }}
+        {...(isExiting && { animate: { opacity: 0, y: 30 } })}
       >
-        <motion.h3
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.9, duration: 0.4 }}
-        >
-          Історія сесій
-        </motion.h3>
+        <h3>Історія сесій</h3>
         <TableContainer className="sessions-container" component={Paper}>
           <Table className="sessions-table" size="medium">
             <TableHead>

@@ -98,15 +98,15 @@ function App() {
               path="/"
               element={
                 user ? (
-                  <motion.div
-                    key="main"
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -40 }}
-                    transition={{ duration: 0.5 }}
-                  >
+                  <div key="main">
                     <MainPage
-                      title={`Вітаємо, ${user.displayName}`}
+                      title={
+                        <>
+                          Вітаємо,
+                          <br />
+                          {user.displayName}
+                        </>
+                      }
                       user={user}
                       setUser={setUser}
                       auth={auth}
@@ -143,7 +143,7 @@ function App() {
                         setIsDeleteMode={setIsDeleteMode}
                       />
                     </MainPage>
-                  </motion.div>
+                  </div>
                 ) : (
                   <Navigate to="/login" />
                 )
@@ -152,15 +152,9 @@ function App() {
             <Route
               path="/job/:jobId"
               element={
-                <motion.div
-                  key="job"
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -40 }}
-                  transition={{ duration: 0.5 }}
-                >
+                <div key="job">
                   <Job db={db} user={user} setUser={setUser} auth={auth} />
-                </motion.div>
+                </div>
               }
             />
           </Routes>
