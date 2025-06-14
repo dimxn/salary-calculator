@@ -18,7 +18,7 @@
 .job-timer__clock {
   font-size: 48px;
   font-weight: 600;
-  color: #1976d2;
+  color: #3f7ddc;
   margin: 16px 0;
 }
 
@@ -39,11 +39,13 @@
 }
 
 .job-timer__btn.start {
-  background-color: #2e7d32;
+  background-color: #3f7ddc;
+  border-radius: 12px;
 }
 
 .job-timer__btn.stop {
   background-color: #d32f2f;
+  border-radius: 12px;
 }
 
 .job-info__wrapper {
@@ -96,6 +98,13 @@
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 16px;
+}
+
+.sessions-history p {
+  margin: 24px 0;
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
 }
 
 .sessions-container {
@@ -156,7 +165,7 @@
 .bonus-input .MuiInputBase-input {
   text-align: center;
   font-weight: 600;
-  color: #1976d2;
+  color: #3f7ddc;
   background: #f1f5f9;
   border-radius: 6px;
   padding: 4px 0;
@@ -190,6 +199,52 @@
 }
 
 .summary tr td:first-child {
-  color: #1976d2;
+  color: #3f7ddc;
   font-weight: 500;
+}
+
+.summary-table + p,
+.MuiDialogContent-root > p {
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+  margin: 24px 0 0 0;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.summary-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 1rem;
+}
+
+.summary-table tr:last-child td {
+  border-bottom: none;
+}
+
+.no-sessions-msg {
+  margin: 24px 0;
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.no-summary-msg {
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+  margin: 24px 0 0 0;
+}
+
+.show-summary-btn {
+  margin-bottom: 24px;
+  border-radius: 12px !important;
+  font-family: "Raleway", sans-serif !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
 }

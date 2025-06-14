@@ -318,22 +318,24 @@ export const Job = ({ db, user, setUser, auth }) => {
             ))}
         </div>
       </motion.section>
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        transition={{ duration: 0.7, ease: "easeInOut" }}
-        {...(isExiting && { animate: { opacity: 0, y: 20 } })}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ marginBottom: 24 }}
-          onClick={() => setOpenSummary(true)}
+      {sessions.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          {...(isExiting && { animate: { opacity: 0, y: 20 } })}
         >
-          Показати підсумки
-        </Button>
-      </motion.div>
+          <Button
+            variant="contained"
+            color="primary"
+            className="show-summary-btn"
+            onClick={() => setOpenSummary(true)}
+          >
+            Показати підсумки
+          </Button>
+        </motion.div>
+      )}
       <motion.section
         className="sessions-history"
         initial={{ opacity: 0, y: 40 }}
@@ -343,51 +345,57 @@ export const Job = ({ db, user, setUser, auth }) => {
         {...(isExiting && { animate: { opacity: 0, y: 30 } })}
       >
         <h3>Історія сесій</h3>
-        <TableContainer className="sessions-container" component={Paper}>
-          <Table className="sessions-table" size="medium">
-            <TableHead>
-              <TableRow>
-                <TableCell>День</TableCell>
-                <TableCell>Початок роботи</TableCell>
-                <TableCell>Кінець роботи</TableCell>
-                {hasBonuses && <TableCell>Бонуси</TableCell>}
-                <TableCell>Заробіток</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {sessions.map((session) => (
-                <TableRow key={session.id}>
-                  <TableCell>{formatDateTime(session.startTime)}</TableCell>
-                  <TableCell>{formatTime(session.startTime)}</TableCell>
-                  <TableCell>{formatTime(session.endTime)}</TableCell>
-                  {hasBonuses && (
-                    <TableCell>
-                      <TextField
-                        type="number"
-                        size="small"
-                        variant="outlined"
-                        value={
-                          editingBonuses[session.id] !== undefined
-                            ? editingBonuses[session.id]
-                            : session.bonusesCount || 0
-                        }
-                        onChange={(e) =>
-                          handleBonusChange(session.id, e.target.value)
-                        }
-                        onBlur={() => saveBonus(session.id)}
-                        inputProps={{ min: 0, style: { width: 60 } }}
-                        className="bonus-input"
-                      />
-                    </TableCell>
-                  )}
-                  <TableCell>
-                    <strong>{session.earnings} грн</strong>
-                  </TableCell>
+        {sessions.length === 0 ? (
+          <p className="no-sessions-msg">
+            Ще не було жодної сесії. Почніть роботу, щоб побачити історію!
+          </p>
+        ) : (
+          <TableContainer className="sessions-container" component={Paper}>
+            <Table className="sessions-table" size="medium">
+              <TableHead>
+                <TableRow>
+                  <TableCell>День</TableCell>
+                  <TableCell>Початок роботи</TableCell>
+                  <TableCell>Кінець роботи</TableCell>
+                  {hasBonuses && <TableCell>Бонуси</TableCell>}
+                  <TableCell>Заробіток</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {sessions.map((session) => (
+                  <TableRow key={session.id}>
+                    <TableCell>{formatDateTime(session.startTime)}</TableCell>
+                    <TableCell>{formatTime(session.startTime)}</TableCell>
+                    <TableCell>{formatTime(session.endTime)}</TableCell>
+                    {hasBonuses && (
+                      <TableCell>
+                        <TextField
+                          type="number"
+                          size="small"
+                          variant="outlined"
+                          value={
+                            editingBonuses[session.id] !== undefined
+                              ? editingBonuses[session.id]
+                              : session.bonusesCount || 0
+                          }
+                          onChange={(e) =>
+                            handleBonusChange(session.id, e.target.value)
+                          }
+                          onBlur={() => saveBonus(session.id)}
+                          inputProps={{ min: 0, style: { width: 60 } }}
+                          className="bonus-input"
+                        />
+                      </TableCell>
+                    )}
+                    <TableCell>
+                      <strong>{session.earnings} грн</strong>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
         <Dialog
           open={openSummary}
           onClose={() => setOpenSummary(false)}
@@ -396,34 +404,40 @@ export const Job = ({ db, user, setUser, auth }) => {
         >
           <DialogTitle>Підсумки</DialogTitle>
           <DialogContent>
-            <table className="summary-table" style={{ width: "100%" }}>
-              <tbody>
-                <tr>
-                  <td>Сесій</td>
-                  <td>{sessions.length}</td>
-                </tr>
-                <tr>
-                  <td>Зароблено загалом</td>
-                  <td>
-                    {sessions
-                      .reduce((sum, s) => sum + (s.earnings || 0), 0)
-                      .toFixed(2)}{" "}
-                    грн
-                  </td>
-                </tr>
-                {hasBonuses && (
+            {sessions.length === 0 ? (
+              <p className="no-summary-msg">
+                Немає даних для підсумків — ще не було жодної сесії.
+              </p>
+            ) : (
+              <table className="summary-table" style={{ width: "100%" }}>
+                <tbody>
                   <tr>
-                    <td>Усього бонусів</td>
+                    <td>Сесій</td>
+                    <td>{sessions.length}</td>
+                  </tr>
+                  <tr>
+                    <td>Зароблено загалом</td>
                     <td>
-                      {sessions.reduce(
-                        (sum, s) => sum + (s.bonusesCount || 0),
-                        0
-                      )}
+                      {sessions
+                        .reduce((sum, s) => sum + (s.earnings || 0), 0)
+                        .toFixed(2)}{" "}
+                      грн
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                  {hasBonuses && (
+                    <tr>
+                      <td>Усього бонусів</td>
+                      <td>
+                        {sessions.reduce(
+                          (sum, s) => sum + (s.bonusesCount || 0),
+                          0
+                        )}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenSummary(false)} color="primary">
